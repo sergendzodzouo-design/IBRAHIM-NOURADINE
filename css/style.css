@@ -39,10 +39,11 @@
 
 /* ---------- Reset ---------- */
 *, *::before, *::after { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; scroll-padding-top: 88px; }
 html, body { max-width: 100%; overflow-x: hidden; }
 body {
   margin: 0;
+  padding-top: 76px;
   font-family: var(--font-body);
   color: var(--ink-900);
   background: var(--sand-50);
@@ -97,8 +98,11 @@ button { font-family: inherit; cursor: pointer; }
    HEADER
    ========================================================================== */
 .site-header {
-  position: sticky;
+  position: fixed;
   top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
   z-index: 50;
   background: rgba(11, 21, 38, 0.92);
   backdrop-filter: blur(8px);
@@ -106,6 +110,7 @@ button { font-family: inherit; cursor: pointer; }
 }
 
 .site-header .container {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -207,7 +212,7 @@ button { font-family: inherit; cursor: pointer; }
   background: var(--navy-950);
   color: var(--white);
   overflow: hidden;
-  padding-block: 140px 72px;
+  padding-block: 64px 72px;
 }
 .page-intro .container { position: relative; z-index: 2; max-width: 760px; }
 .page-intro .hero-headline { font-size: clamp(1.9rem, 3.2vw, 2.8rem); }
@@ -365,12 +370,20 @@ button { font-family: inherit; cursor: pointer; }
 .marquee:hover .marquee-track { animation-play-state: paused; }
 
 .marquee-item {
-  font-family: var(--font-mono);
-  font-size: 0.8rem;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.55);
+  display: flex;
+  align-items: center;
   white-space: nowrap;
+}
+.marquee-item img {
+  display: block;
+  height: 26px;
+  width: auto;
+  filter: brightness(0) invert(1) opacity(0.6);
+  transition: filter 0.25s ease, opacity 0.25s ease;
+}
+.marquee-item:hover img {
+  filter: none;
+  opacity: 1;
 }
 
 @keyframes marquee-scroll {
@@ -455,8 +468,15 @@ button { font-family: inherit; cursor: pointer; }
 .mobile-nav {
   display: none;
   flex-direction: column;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  max-height: calc(100vh - 76px);
+  overflow-y: auto;
   background: var(--navy-950);
   border-top: 1px solid var(--navy-700);
+  box-shadow: 0 20px 30px -18px rgba(0, 0, 0, 0.5);
 }
 .mobile-nav.is-open { display: flex; }
 .mobile-nav a {
@@ -973,12 +993,7 @@ section.dark { background: var(--navy-950); color: var(--white); }
 /* Variante "grand format" du composant .marquee (réutilisé depuis le hero) */
 .marquee-lg { border-top: none; padding-top: 0; }
 .marquee-lg .marquee-track { gap: 64px; animation-duration: 30s; }
-.marquee-lg .marquee-item {
-  font-size: 1.15rem;
-  font-weight: 500;
-  letter-spacing: 0.04em;
-  color: rgba(255, 255, 255, 0.68);
-}
+.marquee-lg .marquee-item img { height: 34px; }
 
 /* ==========================================================================
    FOOTER
@@ -1030,7 +1045,7 @@ section.dark { background: var(--navy-950); color: var(--white); }
   .contact-details span { overflow-wrap: anywhere; word-break: break-word; }
 
   .marquee-lg .marquee-track { gap: 40px; }
-  .marquee-lg .marquee-item { font-size: 0.95rem; }
+  .marquee-lg .marquee-item img { height: 26px; }
 }
 
 @media (max-width: 480px) {
